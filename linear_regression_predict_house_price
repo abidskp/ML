@@ -1,0 +1,53 @@
+########## import libraries ##########
+import pandas as pd
+import numpy as np
+import seaborn as sns
+import matplotlib.pyplot as plt
+from sklearn import linear_model
+
+########## load data file ##########
+df = pd.read_csv('/content/housing_regression_practice.csv')
+df.head(5)
+
+########## draw scatter graph ##########
+plt.xlabel('Square_Footage', color='red')
+plt.ylabel('House_Price_USD', color ='red')
+plt.title('House Prices', color='red')
+plt.scatter(df[['Square_Footage']],df['House_Price_USD'])
+
+########## train model ##########
+lr = linear_model.LinearRegression()
+lr.fit(df[['Square_Footage']],df['House_Price_USD'])
+
+########## predict price ##########
+lr.predict([[6000]])
+result: 
+/usr/local/lib/python3.12/dist-packages/sklearn/utils/validation.py:2739: UserWarning: X does not have valid feature names, but LinearRegression was fitted with feature names
+  warnings.warn(
+array([1017974.09463135])
+
+########## find coefficient ##########
+lr.coef_
+result: array([161.44534573])
+
+########## find intercept ##########
+lr.intercept_
+result: np.float64(49302.020223083615)
+
+########## verifying value by using fromula result = wx+b ##########
+result = 161.44534573 * 6000 + 49302.020223083615
+       = 1017974.0946030838
+
+########## to check the score of model ##########
+lr.score(df[['Square_Footage']],df['House_Price_USD'])
+result = 0.9359101141704828
+
+########## to draw model on graph ##########
+plt.xlabel('Square_Footage', color='red')
+plt.ylabel('House_Price_USD', color ='red')
+plt.title('House Prices', color='red')
+plt.scatter(df[['Square_Footage']],df['House_Price_USD'])
+plt.plot(df[['Square_Footage']],lr.predict(df[['Square_Footage']]), color='red')
+
+
+
